@@ -16,7 +16,7 @@ if(NODE_ENV == "dev"){
 	var webpackConfig = require('./webpack.config.dev.js');
 	var compiler = webpack(webpackConfig);
 	app.use(require('webpack-dev-middleware')(compiler, webpackConfig.devServer));
-	app.use(require('webpack-hot-middleware')(compiler));
+	//app.use(require('webpack-hot-middleware')(compiler));
 }
 
 //all routes

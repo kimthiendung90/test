@@ -4,12 +4,14 @@ global.NODE_ENV = process.env.NODE_ENV || 'pro';
 global.NODE_HOST = process.env.NODE_HOST || 'http://localhost';
 global.NODE_PORT = parseInt(process.env.NODE_PORT) || 8888;
 
+global.ROOT_PATH = __dirname;
+
 var express = require('express')
   , expressSession = require('express-session')
   , cookieParser = require('cookie-parser')
   , app = express(); // Create an Express application.
 
-app.use('/', express.static(__dirname + '/public'));
+//app.use('/', express.static(__dirname + '/public'));
 
 //
 // Since this is only an example, we will use the `MemoryStore` to store the
@@ -41,7 +43,12 @@ app.use(function(req, res, next) {
 // Create an HTTP server and 
 var server = require('http').createServer(app);
 //our Primus server.
-require('./socket/index.js')(server, store, cookies);
+app.get('/*', function index(req, res) {
+  res.sendFile(__dirname + '/public/js/primus.js');
+});
+
+var optPrimus = {cookies: cookies, store: store};
+require('./socket/index.js')(server, optPrimus);
 
 //listen port
 server.listen(NODE_PORT, function() {

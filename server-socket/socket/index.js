@@ -1,7 +1,8 @@
 var Primus = require('primus');
 var primusSession = require('./session');
-module.exports = function(server, store, cookies){
-    console.log('socket file')
+
+module.exports = function(server, optPrimus){
+    
     var options = {
         parser: 'JSON',
         //transformer: 'engine.io' || 'websockets',
@@ -12,7 +13,7 @@ module.exports = function(server, store, cookies){
     // var fs = require('fs')
     //   , UglifyJS = require('uglify-js');
 
-    var pathJs = __dirname + '/public/js/';
+    var pathJs = ROOT_PATH + '/public/js/';
     console.log(pathJs)
     primus.save(pathJs + 'primus.js', function save(err) {
         if(!err){
@@ -31,11 +32,11 @@ module.exports = function(server, store, cookies){
     });
 
     // middlewares
-    primus.use('cookies', cookies);
-    primus.use('session', primusSession, { store: store });
+    primus.use('cookies', optPrimus.cookies);
+    primus.use('session', primusSession, { store: optPrimus.store });
 
     primus.on('connection', function connection(spark) {
-        console.log('new connection' , spark.request.session);
+        console.log('new connection' , spark.request.session , spark.request.cookies);
 
         spark.write(JSON.stringify(spark.request.session, null, '  '));
     });
