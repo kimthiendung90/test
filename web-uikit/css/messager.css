@@ -1,22 +1,26 @@
-.ktd-wrap{
+.ktd-messager{
     position: fixed;
     bottom: 10px;
     left: 10px;
 }
-.ktd-messager{
+.ktd-m{
     position: relative;
     float: left;
-    margin-right: 10px;
+    width: 300px;
 }
-.ktd-messager-tab {
+.ktd-m-head {
     position: absolute;
     bottom: 0;
     left: 0;
     list-style: none;
     padding: 0;
     margin: 0;
+    width: 100%;
 }
-.ktd-messager-tab a{
+.ktd-m-head > li{
+    display: inline-block;
+}
+.ktd-m-head a{
     display: inline-block;
     width: 50px;
     height: 50px;
@@ -25,14 +29,22 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
-.ktd-messager-tab img {
+.ktd-m-head img {
     max-width: 100%;
 }
 
-.ktd-messager-main {
-    width: 400px;
-    height: 600px;
+.ktd-m-body{
+    position: relative;
+    height: 400px;
+    width: 1px;
+    margin-bottom: 60px;
+}
+
+.ktd-m-item {
+    position: absolute;
+    height: 100%;
+    width: 300px;
+    background-color: #fff;
     border-radius: 6px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-    margin-bottom: 60px;
 }
