@@ -222,35 +222,27 @@
         var chat = $('#chat').ktdChat();
             
             var data = {
+                id: 'user_123',
                 avatar: '',
-                title: 'dasd',
-                main: 'sssssss'
+                name: 'kimdung',
+                media: 'sssssss'
             };
             
+            // start
             var c = chat.data("api");
                 c.listUser(data);
 
-                var id="user_123";
-                c.box(id);
-                c.avatar(id);
-                 var mess = {
-                    name: 'dddd',
-                    time: '2017',
-                    main: 'ssssssssssss'
-                };
-                c.chat(id, mess);
+                //c.chat(data);
 
                 $('#ddd').click(function(){
-                    var id2="user_456";
-                    c.box(id2);
-                    c.avatar(id2);
-
-                    var mess2 = {
-                        name: 'eeeeeee',
-                        time: '2017',
-                        main: 'ccccccccccc'
+                    var data2 = {
+                        id: 'user_123',
+                        avatar: '',
+                        name: 'kimdung',
+                        media: 'ffffffff'
                     };
-                    c.chat(id2, mess2);
+
+                    c.chat(data2);
                 })
                 
     </script>

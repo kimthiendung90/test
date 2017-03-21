@@ -39,77 +39,107 @@
             console.log(value)
         }
 
-        function render(){
-            var ktdChat = $('<div class="ktd-chat-wrap"><div class="ktd-chat"></div></div>');
-            ktdChat.appendTo(chatWrap);
+        function isEmpty(value){
+            var temp = true;
+            if (typeof (value) != "undefined" || value != null){
+                if(value.trim()){
+                    temp = false;
+                }
+            }
+            console.log(temp)
+            return temp;
         }
-        
+
+        function renderList(data, insert){
+            var id = control;
+            var ins = insert || 'append';
+            var avatar = (data.avatar) ? data.avatar : options.avatar;
+            var name = (data.name) ? data.name : "";
+            var media = (data.media) ? data.media : "";
+            var temp = '<div class="ktd-media ktd-chat-pointer" data-box="'+data.id+'">\
+                        <div class="ktd-media-img">\
+                            <img src="'+avatar+'">\
+                        </div>\
+                        <div class="ktd-media-body">\
+                            <div class="ktd-media-title">\
+                                <strong>'+name+'</strong>\
+                            </div>\
+                            <div class="ktd-media-main">\
+                                <span>'+media+'</span>\
+                            </div>\
+                        </div>\
+                    </div>';
+            $('#'+id).children('.ktd-chat-main')[ins](temp);
+        }
+
+        function renderMedia(id, data, position, insert){
+            if(!isEmpty(data.media)){
+                var pos = (position) ? ' ktd-m-'+position : '';
+                var ins = insert || 'append';
+                var avatar = (data.avatar) ? data.avatar : options.avatar;
+                var name = (data.name) ? data.name : "";
+                var time, date = "";
+                if(data.time){
+                    var d = new Date(data.time);
+                    date = d.toLocaleString();
+                    time = d.toLocaleTimeString();
+                }
+                
+                //var media = (data.media) ? data.media : "";
+                var temp = '<div class="ktd-m'+pos+'" title="'+date+'">\
+                                <div class="ktd-m-head">\
+                                    <strong class="ktd-m-name">'+name+'</strong>\
+                                    <span class="ktd-m-time">'+time+'</span>\
+                                </div>\
+                                <div class="ktd-m-body">'+data.media+'</div>\
+                            </div>';
+                $('#'+id).find('.ktd-chat-content')[ins](temp);
+            }
+        }
+
+        function renderAct(id, avatar){
+            var image = avatar || options.avatar;
+            var temp = '<span class="ktd-chat-tab">\
+                            <img src="'+image+'" />\
+                        </div>';
+            if($('#'+id).find('.ktd-chat-atc .ktd-chat-tab').length == 0){
+                $('#'+id).children('.ktd-chat-atc').append(temp);
+            }
+        }
+
         function renderBox(id, type){
             if(!id){
                 console.error("Error ! id is null.");
                 return false;
             }
             if($('#'+id).length == 0){
-                var box = $('<div class="ktd-chat-box" id="'+id+'"><div class="ktd-chat-atc"></div><div class="ktd-chat-main"></div></div>');
+                var box = $('<div class="ktd-chat-box active" id="'+id+'"><div class="ktd-chat-atc"></div><div class="ktd-chat-main active"></div></div>');
                 var ktdChat = chatWrap.find('.ktd-chat');
                     box.appendTo(ktdChat);
                 if(!type){
                     var temp = '<div class="ktd-chat-content"></div>\
                                 <div class="ktd-m-footer">\
-                                    <textarea data-editor="'+id+'" class="ktd-m-editor" placeholder="'+options.placeholder+'" rows="3"></textarea>\
+                                    <textarea data-box="'+id+'" class="ktd-m-editor" placeholder="'+options.placeholder+'" rows="3"></textarea>\
                                 </div>';
-                    box.find('.ktd-chat-main').addClass('ktd-chat-addon').append(temp);
+                    box.children('.ktd-chat-main').addClass('ktd-chat-addon active').append(temp);
                 }
             }
-            
         }
 
-        function renderAct(id, data, insert){
-            var ins = insert || 'append';
-            var avatar = data || options.avatar;
-            var temp = '<span class="ktd-chat-tab">\
-                            <img src="'+avatar+'" />\
-                        </div>';
-            $('#'+id).find('.ktd-chat-atc')[ins](temp);
-        }
-        
-        function renderList(data, insert){
-            var id = control;
-            var ins = insert || 'append';
-            var avatar = (data.avatar) ? data.avatar : options.avatar;
-            var title = (data.title) ? data.title : "";
-            var main = (data.main) ? data.main : "";
-            var temp = '<div class="ktd-media">\
-                        <div class="ktd-media-img">\
-                            <img src="'+avatar+'">\
-                        </div>\
-                        <div class="ktd-media-body">\
-                            <div class="ktd-media-title">\
-                                <strong>'+title+'</strong>\
-                            </div>\
-                            <div class="ktd-media-main">\
-                                <span>'+main+'</span>\
-                            </div>\
-                        </div>\
-                    </div>';
-            $('#'+id).find('.ktd-chat-main')[ins](temp);
+        function renderChat(data, position, insert){
+            if(!isEmpty(data.id)){
+                renderBox(data.id);
+                renderAct(data.id, data.avatar);
+                renderMedia(data.id, data, position, insert);
+            }
+            else{
+                console.log('please! check data');
+            }
         }
 
-        function renderChat(id, data, insert, position){
-            var pos = (position) ? ' ktd-m-'+position : '';
-            var ins = insert || 'append';
-            var avatar = (data.avatar) ? data.avatar : options.avatar;
-            var name = (data.name) ? data.name : "";
-            var time = (data.time) ? data.time : "";
-            var main = (data.main) ? data.main : "";
-            var temp = '<div class="ktd-m'+pos+'" title="2017-03-19 20:01:40">\
-                            <div class="ktd-m-head">\
-                                <strong class="ktd-m-name">'+name+'</strong>\
-                                <span class="ktd-m-time">'+time+'</span>\
-                            </div>\
-                            <div class="ktd-m-body">'+main+'</div>\
-                        </div>';
-            $('#'+id).find('.ktd-chat-content')[ins](temp);
+        function render(){
+            var ktdChat = $('<div class="ktd-chat-wrap"><div class="ktd-chat"></div></div>');
+            ktdChat.appendTo(chatWrap);
         }
 
         function init() {
@@ -117,15 +147,71 @@
             renderBox(control, true);
             renderAct(control, actSVG);
 
-            $(document).on('keypress', 'textarea[data-editor]', function(e) {
-                var main = $(this).val();
-                if (e.keyCode == 13 && !e.shiftKey && main!=""){
-                    var data = {
-                        name: options.owner,
-                        main: main
+            var box_toggle = function(el){
+				if (el.hasClass('active')) {
+					el.animate({ value: 0 }, {
+						step: function(now, fx) {
+							$(this).css({"transform": "scale("+ now +")", "opacity": now})
+						},
+						duration: 140,
+                        complete: function(){
+                            $(this).css({"display": "none"});
+                            el.removeClass('active');
+                            $(this).stop(true, true); //stop toggle too much
+                        }
+					});
+
+                                      
+				}
+				else{
+					el.animate({ value: 1 }, {
+                        step: function(now, fx) {
+                            $(this).css({"transform": "scale("+ now +")", "opacity": now})
+                        },
+                        duration: 110,
+                        start: function(){
+                            el.addClass('active');
+                            $(this).css({"display": "block"})
+                        }
+                    })
+				}
+			};
+
+            $(document).on('click', '.ktd-chat-tab', function(e) {
+                var box = $(this).closest('.ktd-chat-box');
+                var main = box.children('.ktd-chat-main');
+                box_toggle(main);
+            });
+
+            $(document).on('click', '#ktd-chat-control .ktd-media', function(e) {
+                var id = $(this).attr('data-box');
+                var box = $('#'+id);
+                if(box.length == 1){
+                    box_toggle(box);
+                }
+                else{
+                    renderChat({id: id})
+                }
+            });
+
+            $(document).on('keypress', 'textarea[data-box]', function(e) {
+                if (e.keyCode == 13 && !e.shiftKey){
+                    var text = $(this).val();
+                    if(text.trim() != ""){
+                        var d = new Date();
+                        var data = {
+                            name: options.owner,
+                            media: text,
+                            time: d.getTime()
+                        }
+                        var id = $(this).attr('data-box');
+                        renderMedia(id, data, 'right');
+                        $(this).val('');
+
+                        var scrollEle = $('#'+id).find('.ktd-chat-content');
+                        scrollEle.animate({ scrollTop: scrollEle[0].scrollHeight }, 200);
                     }
-                    renderChat($(this).attr('data-editor'), data, null, 'right');
-                    $(this).val('');
+                    
                     e.preventDefault();
                 }
             })
@@ -139,9 +225,7 @@
         function api() {
             return {
                 'listUser': renderList,
-                'box': renderBox,
-                'avatar': renderAct,
-                'chat': renderChat
+                'chat': renderChat,
             };
         }
 
