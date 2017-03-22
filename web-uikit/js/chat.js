@@ -19,8 +19,7 @@
             owner: "không tên",
             avatar: avatarSVG,
             placeholder: 'nhập văn bản...',
-            onInitBefore: null,
-            onInitAfter: null,
+            onChangeInput: null,
         };
 
         options = $.extend(defaults, options);
@@ -206,10 +205,16 @@
                         }
                         var id = $(this).attr('data-box');
                         renderMedia(id, data, 'right');
+
+                        if (typeof (options.onChangeInput) === "function") {
+                            options.onChangeInput.call(this, data);
+                        }
+
                         $(this).val('');
 
                         var scrollEle = $('#'+id).find('.ktd-chat-content');
                         scrollEle.animate({ scrollTop: scrollEle[0].scrollHeight }, 200);
+                        
                     }
                     
                     e.preventDefault();

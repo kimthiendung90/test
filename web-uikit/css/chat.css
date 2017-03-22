@@ -203,9 +203,7 @@
 	box-sizing: border-box;
 }
 .ktd-m {max-width: 100%;clear: both;float: left;padding: 10px 10px 0;}
-.ktd-m-head {
-	margin-left: 10px;
-}
+
 .ktd-m-name {
 	float: left;
     font-size: 12px;
@@ -219,6 +217,7 @@
 .ktd-m-body {
     max-width: 100%;
     position: relative;
+	clear: both;
     float: left;
     min-height: 33px;
     color: rgba(0, 0, 0, 0.8);
@@ -242,10 +241,6 @@
 
 .ktd-m-right {
     float: right;
-}
-.ktd-m-right .ktd-m-head {
-	margin-left: 0;
-	margin-right: 10px;
 }
 .ktd-m-right .ktd-m-body{
 	background-color: #e3eaec;

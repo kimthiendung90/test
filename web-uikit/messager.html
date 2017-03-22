@@ -219,7 +219,12 @@
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/chat.js" type="text/javascript"></script>
     <script type="text/javascript">
-        var chat = $('#chat').ktdChat();
+        var chat = $('#chat').ktdChat({
+            owner: "me",
+            onChangeInput: function(data){
+                console.log(data)
+            }
+        });
             
             var data = {
                 id: 'user_123',
