@@ -8,7 +8,6 @@
 	<link rel="shortcut icon" href="css/favicon.ico">
 	<title>my design</title>
 	<link href="css/chat.css" rel="stylesheet" ktd-media="all">
-    <script src="js/jquery.min.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="chat" id="chat"></div>
@@ -214,41 +213,53 @@
         </div>
     </div>
 
+    <time class="timeago" datetime="2011-12-17T09:24:17Z">December 17, 2011</time>
     <button id="ddd">ddd</button>
-
+    <a>dada</a>
     <script src="js/jquery.min.js" type="text/javascript"></script>
     <script src="js/chat.js" type="text/javascript"></script>
     <script type="text/javascript">
-        var chat = $('#chat').ktdChat({
+
+        //$("time.timeago").timeago();
+        // var chat = $('#chat').ktdChat({
+        //     owner: "me",
+        //     onChangeInput: function(data){
+        //         console.log(data)
+        //     }
+        // });
+
+        var c = $('#chat').ktdChat({
             owner: "me",
             onChangeInput: function(data){
                 console.log(data)
             }
         });
-            
             var data = {
                 id: 'user_123',
                 avatar: '',
                 name: 'kimdung',
                 media: 'sssssss'
             };
-            
+            c.chat(data);
+            c.listUser(data);
+    
             // start
-            var c = chat.data("api");
-                c.listUser(data);
+            // var c = chat.data("api");
+            // console.log(c)
+            //     c.listUser(data);
 
-                //c.chat(data);
+            //     //c.chat(data);
 
-                $('#ddd').click(function(){
-                    var data2 = {
-                        id: 'user_123',
-                        avatar: '',
-                        name: 'kimdung',
-                        media: 'ffffffff'
-                    };
+            //     $('#ddd').click(function(){
+            //         var data2 = {
+            //             id: 'user_123',
+            //             avatar: '',
+            //             name: 'kimdung',
+            //             media: 'ffffffff'
+            //         };
 
-                    c.chat(data2);
-                })
+            //         c.chat(data2);
+            //     })
                 
     </script>
 </body>
