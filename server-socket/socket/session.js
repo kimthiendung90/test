@@ -6,10 +6,11 @@ var PrimusError = require('primus').PrimusError;
 // Expose the configuration function.
 //
 module.exports = function configure(options) {
-  var key = options.key || 'connect.sid'
+  // 'connect.sid' default name of express
+  var key = options.key || 'cid'
     , store = options.store
     , primus = this;
-
+  console.log(key)
   if (!store) {
     //
     // Throw an error when the session store is not passed.

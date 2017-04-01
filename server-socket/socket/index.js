@@ -5,7 +5,7 @@ module.exports = function(server, optPrimus){
     
     var options = {
         parser: 'JSON',
-        //transformer: 'engine.io' || 'websockets',
+        transformer: 'engine.io' || 'websockets',
     }
 
     var primus = new Primus(server, { options });
@@ -36,9 +36,13 @@ module.exports = function(server, optPrimus){
     primus.use('session', primusSession, { store: optPrimus.store });
 
     primus.on('connection', function connection(spark) {
-        console.log('new connection' , spark.request.session , spark.request.cookies);
+        console.log('new connection' , spark.request.session);
 
         spark.write(JSON.stringify(spark.request.session, null, '  '));
+
+        spark.on('chat:send', function(data) {
+            console.log(data)
+        });
     });
 
 

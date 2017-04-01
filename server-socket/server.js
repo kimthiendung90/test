@@ -7,31 +7,48 @@ global.NODE_PORT = parseInt(process.env.NODE_PORT) || 8888;
 global.ROOT_PATH = __dirname;
 
 var express = require('express')
-  , expressSession = require('express-session')
+  , session = require('express-session')
+  , bodyParser = require('body-parser')
   , cookieParser = require('cookie-parser')
   , app = express(); // Create an Express application.
 
+
 //app.use('/', express.static(__dirname + '/public'));
 
-//
-// Since this is only an example, we will use the `MemoryStore` to store the
-// sessions. This is our session store instance.
-//
-var store = new expressSession.MemoryStore();
-//
-// Add the middleware needed for session support.
-//
+/**
+ * use the `MemoryStore` to store the sessions.
+ */
+// var store = new session.MemoryStore();
+
+/**
+ * use the `redis` to store the sessions
+ */
+  var redis = require('redis');
+  var connectRedis = require('connect-redis');
+  var RedisStore = connectRedis(session);
+  var redisClient = redis.createClient();
+  var store = new RedisStore({client: redisClient});
+
+/**
+ * Add the middleware needed for session support.
+ */
 var secret = '(*_^)dungdapchai6789%$#@!';
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 var cookies = cookieParser(secret);
 app.use(cookies);
-app.use(expressSession({
+app.use(session({
+  key: 'cid',
+  cookie :{ path: '/', httpOnly: true, maxAge: 1000*60*60*24 },
+  resave: true,
   saveUninitialized: true,
   secret: secret,
-  resave: true,
   store: store
 }));
 
-// Allow User-Agent
+/**
+ * Allow User-Agent
+ */
 app.use(function(req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');

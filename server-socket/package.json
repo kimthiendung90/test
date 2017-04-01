@@ -9,12 +9,15 @@
   "author": "kimthiendung@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "connect-redis": "^3.2.0",
     "cookie-parser": "^1.4.3",
-    "engine.io": "^2.1.0",
-    "engine.io-client": "^2.1.0",
+    "engine.io": "^2.1.1",
+    "engine.io-client": "^2.1.1",
     "express": "^4.15.2",
     "express-session": "^1.15.1",
     "primus": "^6.1.0",
+    "redis": "^2.7.1",
     "uglify-js": "^2.8.12"
   }
 }
